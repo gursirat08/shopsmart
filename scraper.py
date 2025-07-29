@@ -1,10 +1,10 @@
-from serpapi import GoogleSearch
+from serpapi.google_search import GoogleSearch
 import random
 
 SERPAPI_KEY = "83557b4f077c56b9d2907ec15415d99dbb59e030bd0cf6e11a8785c337770188"
 
 
-#  Helper: Extract real price from fields
+# Helper: Extract real or fake price
 def extract_price(item):
     if item.get("price"):
         return item["price"], False
@@ -14,11 +14,12 @@ def extract_price(item):
         for ext in item["extensions"]:
             if "₹" in ext:
                 return ext, False
-    # If no real price found, generate a fake one
+    # No price → generate fake one
     fake_price = f"₹{random.randint(4000, 90000)}"
     return fake_price, True
 
 
+# Amazon scraping
 def search_amazon(product_name):
     params = {
         "engine": "google",
@@ -45,6 +46,7 @@ def search_amazon(product_name):
     return products
 
 
+#  Flipkart scraping
 def search_flipkart(product_name):
     params = {
         "engine": "google",
