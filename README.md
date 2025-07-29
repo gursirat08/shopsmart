@@ -50,6 +50,9 @@ ShopSmart is a FastAPI-powered price monitoring and forecasting app that lets us
 
 <img width="500" height="275" alt="Screenshot 2025-07-30 001112" src="https://github.com/user-attachments/assets/7792c97e-c8c9-467a-97cc-2df8655449f4" />
 
+## Live Demo Link
+   https://shopsmart-sirat.onrender.com 
+
 ## Author
    Gursirat Kaur
 
