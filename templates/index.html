@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ShopSmart – Price Predictor</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+      font-family: 'Inter', sans-serif;
+      background: linear-gradient(to right, #f2f6f9, #e9f0f6);
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    main {
+      flex: 1;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 40px 20px;
+    }
+
+    .title {
+      text-align: center;
+      margin-bottom: 10px;
+    }
+
+    .title h1 {
+      font-size: 2.5em;
+      margin: 0;
+      color: #222;
+    }
+
+    .title span {
+      font-size: 1.2em;
+      color: #555;
+    }
+
+    form {
+      margin: 30px 0;
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+
+    input[type="text"] {
+      padding: 12px;
+      font-size: 16px;
+      flex-grow: 1;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      background-color: #fff;
+    }
+
+    button {
+      padding: 12px 18px;
+      background-color: #007bff;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+
+    button:hover {
+      background-color: #0056b3;
+    }
+
+    .card {
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 12px;
+      margin-top: 20px;
+      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+    }
+
+    .card h3 {
+      margin-top: 0;
+      font-size: 1.2em;
+    }
+
+    .card p {
+      margin: 5px 0;
+    }
+
+    .card a {
+      color: #007bff;
+      text-decoration: none;
+    }
+
+    .card a:hover {
+      text-decoration: underline;
+    }
+
+    footer {
+      background-color: #f0f0f0;
+      text-align: center;
+      padding: 15px;
+      font-size: 0.9em;
+      color: #666;
+      border-top: 1px solid #ddd;
+    }
+
+    .spinner {
+      display: none;
+      margin: 20px auto;
+      border: 6px solid #f3f3f3;
+      border-top: 6px solid #007bff;
+      border-radius: 50%;
+      width: 40px;
+      height: 40px;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    .top-right-button {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      background-color: #007bff;
+      color: white;
+      padding: 12px 18px;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: none;
+      border-radius: 6px;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+      transition: background-color 0.3s ease;
+      z-index: 999;
+    }
+
+    .top-right-button:hover {
+      background-color: #0056b3;
+    }
+
+    .estimated-label {
+      background-color: #fce9c7;
+      color: #d17a00;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-size: 0.8em;
+      margin-left: 8px;
+    }
+  </style>
+</head>
+<body>
+
+  {% if request.session.get("user") %}
+    <a href="/logout" class="top-right-button">🚪 Logout</a>
+  {% else %}
+    <a href="/login" class="top-right-button">👤 Login</a>
+  {% endif %}
+
+  <main>
+    <div class="title">
+      <h1>
+        <img src="https://cdn-icons-png.flaticon.com/512/1170/1170678.png" alt="ShopSmart Logo" width="36" style="vertical-align: middle; margin-right: 10px;">
+        ShopSmart
+      </h1>
+      <span>Real-time price prediction for smarter shopping</span>
+    </div>
+
+    {% if request.session.get("user") %}
+      <p style="text-align: center; color: #007bff; font-weight: bold;">
+        Welcome, {{ request.session.get("user") }}!
+      </p>
+    {% endif %}
+
+    <form action="/search" method="post" onsubmit="showSpinner()">
+      <input type="text" name="product" placeholder="Search for a product like iPhone 14..." required>
+      <button type="submit">Search</button>
+    </form>
+
+    <div id="spinner" class="spinner"></div>
+
+    {% if results %}
+      <h2>Results:</h2>
+      {% for item in results %}
+        <div class="card">
+          <h3>{{ item.title }}</h3>
+          <p><strong>Price:</strong> {{ item.price }}
+            {% if item.estimated %}
+              <span class="estimated-label">🧮 Estimated</span>
+            {% endif %}
+          </p>
+          <p><strong>Source:</strong> {{ item.source }}</p>
+          <a href="{{ item.link }}" target="_blank">🔗 View Product</a>
+          <form action="/forecast/{{ item.key | urlencode }}" method="get">
+            <button style="margin-top: 10px;">📊 View Forecast</button>
+          </form>
+        </div>
+      {% endfor %}
+    {% endif %}
+  </main>
+
+  <footer>
+    Built with ❤️ by <strong>Gursirat Kaur</strong> · ShopSmart 2025
+  </footer>
+
+  <script>
+    function showSpinner() {
+      document.getElementById("spinner").style.display = "block";
+    }
+  </script>
+</body>
+</html>

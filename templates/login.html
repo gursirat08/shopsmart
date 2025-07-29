@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Login – ShopSmart</title>
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+      background: #f2f6f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .login-box {
+      background: white;
+      padding: 30px 40px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      max-width: 400px;
+      width: 100%;
+    }
+
+    .login-box h2 {
+      margin-bottom: 20px;
+      color: #333;
+    }
+
+    input[type="text"], input[type="password"] {
+      width: 100%;
+      padding: 12px;
+      margin-bottom: 15px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
+    button {
+      width: 100%;
+      padding: 12px;
+      background-color: #007bff;
+      color: white;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    .error {
+      color: red;
+      margin-bottom: 10px;
+      text-align: center;
+    }
+
+    .info {
+      font-size: 0.9em;
+      margin-top: 10px;
+      text-align: center;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <form class="login-box" action="/login" method="post">
+    <h2>🔐 Login to ShopSmart</h2>
+    {% if error %}
+      <div class="error">{{ error }}</div>
+    {% endif %}
+    <input type="text" name="username" placeholder="Username" required>
+    <input type="password" name="password" placeholder="Password" required>
+    <button type="submit">Login</button>
+
+    <div class="info">
+      Use demo credentials:<br>
+      <strong>Username:</strong> sirat<br>
+      <strong>Password:</strong> sirat123
+    </div>
+  </form>
+</body>
+</html>

@@ -1,0 +1,11 @@
+
+fastapi
+uvicorn
+jinja2
+python-multipart
+itsdangerous
+serpapi
+sqlite3  # optional; part of Python stdlib
+pandas
+prophet
+plotly
